@@ -1,0 +1,41 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ 
+ //In this solution, we count the number of 0-nodes(say N) and number of 1-nodes(Say M), Then we overwrite the values of starting N-nodes to 0 and rest of the nodes to 1.
+ 
+ListNode* Solution::solve(ListNode* A) 
+{
+    int c_0=0,c_1=0;
+    ListNode* temp=A;
+    while(temp!=NULL)
+    {
+        if(temp->val==0) c_0++;
+        else if(temp->val==1) c_1++;
+        temp=temp->next;
+    }
+    ListNode* new_H=A;
+    while(new_H!=NULL)
+    {
+        if(c_0>0)
+        {
+            new_H->val=0;
+            c_0--;
+        }
+        else new_H->val=1;
+        new_H=new_H->next;
+    }
+    return A;
+}
+
+
+// An alternate and better approach would be, to create 2 node pointers (to act as a linked list)
+// One would point to 0-nodes (as a sub-linked list(having only zeros) of the main linked list and the zero nodes are in the relatively same order as in the original list)
+// The other would point to 1-nodes (as a sub-linked list(having only ones) of the main linked list and the one nodes are in the relatively same order as in the original list)
+// Finally we merge the two sublists, and delete the temporary Node pointers... 
+// This method must be preffered as we are dealing with the original node swapping rather than just overwriting the values (which sometimes might create problems).
